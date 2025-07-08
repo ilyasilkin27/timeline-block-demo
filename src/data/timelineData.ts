@@ -1,4 +1,4 @@
-import type { TimelinePeriod } from '../components/TimelineBlock/types';
+import type { TimelinePeriod } from '../components/TimelineBlock/timelineTypes';
 
 export const timelineData: TimelinePeriod[] = [
   {

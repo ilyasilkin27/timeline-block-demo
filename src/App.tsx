@@ -1,5 +1,3 @@
-import React from 'react';
-import './App.css';
 import { TimelineBlock } from './components/TimelineBlock/TimelineBlock';
 import { timelineData } from './data/timelineData';
 
