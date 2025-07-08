@@ -13,14 +13,13 @@ type TimelineBlockProps = {
   className?: string;
 };
 
-const DOT_RADIUS = 220; // px, радиус окружности для точек
-const CIRCLE_SIZE = 520; // px, размер svg/circle
+const DOT_RADIUS = 220;
+const CIRCLE_SIZE = 520;
 
 export const TimelineBlock: React.FC<TimelineBlockProps> = ({ periods, className }) => {
   const [activePeriod, setActivePeriod] = useState(0);
   const yearsRef = useRef<HTMLDivElement>(null);
 
-  // GSAP анимация смены периода
   useEffect(() => {
     if (yearsRef.current) {
       gsap.fromTo(
@@ -31,10 +30,9 @@ export const TimelineBlock: React.FC<TimelineBlockProps> = ({ periods, className
     }
   }, [activePeriod]);
 
-  // Расчет координат точек на окружности
   const getDotPosition = (idx: number, total: number) => {
     const angle = (2 * Math.PI * idx) / total - Math.PI / 2;
-    const x = CIRCLE_SIZE / 2 + DOT_RADIUS * Math.cos(angle) - 20; // 20 = dot size / 2
+    const x = CIRCLE_SIZE / 2 + DOT_RADIUS * Math.cos(angle) - 20;
     const y = CIRCLE_SIZE / 2 + DOT_RADIUS * Math.sin(angle) - 20;
     return { left: x, top: y };
   };
@@ -46,20 +44,15 @@ export const TimelineBlock: React.FC<TimelineBlockProps> = ({ periods, className
         Исторические даты
       </div>
       <div className={styles.circle}>
-        {/* Линии-оси */}
         <svg width={CIRCLE_SIZE} height={CIRCLE_SIZE} className={styles.periodDots}>
           <circle cx={CIRCLE_SIZE/2} cy={CIRCLE_SIZE/2} r={DOT_RADIUS} fill="none" stroke="#e2e4ea" strokeWidth="1.5" />
-          {/* Вертикальная */}
           <line x1={CIRCLE_SIZE/2} y1={0} x2={CIRCLE_SIZE/2} y2={CIRCLE_SIZE} stroke="#e2e4ea" strokeWidth="1" />
-          {/* Горизонтальная */}
           <line x1={0} y1={CIRCLE_SIZE/2} x2={CIRCLE_SIZE} y2={CIRCLE_SIZE/2} stroke="#e2e4ea" strokeWidth="1" />
         </svg>
-        {/* Крупные числа */}
         <div className={styles.years} ref={yearsRef}>
           <span className={`${styles.year} ${styles.inactive}`}>{periods[activePeriod].years[0]}</span>
           <span className={`${styles.year} ${styles.active}`}>{periods[activePeriod].years[1]}</span>
         </div>
-        {/* Точки */}
         {periods.map((period, idx) => {
           const pos = getDotPosition(idx, periods.length);
           return (
@@ -77,7 +70,6 @@ export const TimelineBlock: React.FC<TimelineBlockProps> = ({ periods, className
           );
         })}
       </div>
-      {/* Слайдер событий */}
       <div className={styles.sliderWrapper}>
         <Swiper
           modules={[Navigation, Pagination]}
@@ -90,9 +82,9 @@ export const TimelineBlock: React.FC<TimelineBlockProps> = ({ periods, className
             600: { slidesPerView: 2 },
             900: { slidesPerView: 3 },
           }}
-          key={activePeriod} // сброс слайдера при смене периода
+          key={activePeriod}
         >
-          {periods[activePeriod].events.map((event, idx) => (
+          {periods[activePeriod].events.map((event) => (
             <SwiperSlide key={event.year + event.title}>
               <div style={{
                 background: '#fff',
